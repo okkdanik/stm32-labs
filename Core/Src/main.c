@@ -29,12 +29,12 @@ int main(void) {
     GPIOD->OTYPER = 0;
     GPIOD->OSPEEDR = 0;
 
-    while (1)
-    {
-      GPIOD->ODR = 0xF000;
-        for (i = 0; i < 500000; i++) {}
-        GPIOD->ODR = 0x0000;
-        for (i = 0; i < 500000; i++) {}
+    while (1) {
+        for (uint32_t led = 0x1000; led <= 0x8000; led <<= 1) {
+            GPIOD->ODR = led;
+            for (i = 0; i < 500000; i++) {}
+            GPIOD->ODR = 0x0000;
+        }
     }
 }
 
