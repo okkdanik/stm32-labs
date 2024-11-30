@@ -55,6 +55,7 @@ static void MX_GPIO_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 int mode = 0;
+int delays[] = {500, 250};
 /* USER CODE END 0 */
 
 /**
@@ -94,16 +95,15 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-      for (int i = 0; i < 4; i++) {
+      for (int i = 12; i <= 15; i++) {
           if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET) {
               mode ^= 1;
               HAL_Delay(200);
           }
 
-          int pin = (mode ? 15 - i : 12 + i);
-          HAL_GPIO_WritePin(GPIOD, 1 << pin, GPIO_PIN_SET);
-          HAL_Delay(500);
-          HAL_GPIO_WritePin(GPIOD, 1 << pin, GPIO_PIN_RESET);
+          HAL_GPIO_TogglePin(GPIOD, 1 << i);
+          HAL_Delay(delays[mode]);
+          HAL_GPIO_TogglePin(GPIOD, 1 << i);
       }
     /* USER CODE BEGIN 3 */
   }
