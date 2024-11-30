@@ -24,16 +24,22 @@ int main(void) {
     uint32_t i;
 
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 
     GPIOD->MODER = 0x55000000;
     GPIOD->OTYPER = 0;
     GPIOD->OSPEEDR = 0;
 
+    GPIOA->MODER &= ~GPIO_MODER_MODE0;
+    GPIOA->PUPDR |= GPIO_PUPDR_PUPD0_1;
+
     while (1) {
-        for (uint32_t led = 0x1000; led <= 0x8000; led <<= 1) {
-            GPIOD->ODR = led;
-            for (i = 0; i < 250000; i++) {}
-            GPIOD->ODR = 0x0000;
+        if (GPIOA->IDR & GPIO_IDR_ID0) {
+            for (uint32_t led = 0x1000; led <= 0x8000; led <<= 1) {
+                GPIOD->ODR = led;
+                for (i = 0; i < 250000; i++) {}
+                GPIOD->ODR = 0x0000;
+            }
         }
     }
 }
