@@ -208,6 +208,15 @@ void EXTI0_IRQHandler(void)
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(USER_Pin);
   /* USER CODE BEGIN EXTI0_IRQn 1 */
+  if (USER_Pin == GPIO_PIN_0)
+  {
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+    for (uint32_t i=0; i<10000000; i++);
+  }
+  else {
+    __NOP();
+  }
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 
   /* USER CODE END EXTI0_IRQn 1 */
 }
