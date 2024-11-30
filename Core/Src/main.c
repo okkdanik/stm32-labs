@@ -32,7 +32,7 @@ int main(void) {
     while (1) {
         for (uint32_t led = 0x1000; led <= 0x8000; led <<= 1) {
             GPIOD->ODR = led;
-            for (i = 0; i < 500000; i++) {}
+            for (i = 0; i < 250000; i++) {}
             GPIOD->ODR = 0x0000;
         }
     }
