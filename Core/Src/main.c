@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stdbool.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -51,7 +52,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
-
+bool state = true;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -236,7 +237,26 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == Push_Button_Pin && state == true) {
+        HAL_TIM_Base_Start_IT(&htim1);
+        state = false;
+    } else {
+        __NOP();
+    }
+}
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    UNUSED(htim);
+
+    if (HAL_GPIO_ReadPin(Push_Button_GPIO_Port, Push_Button_Pin) == GPIO_PIN_RESET) {
+        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+        state = true;
+        HAL_TIM_Base_Stop_IT(&htim1);
+    }
+}
 /* USER CODE END 4 */
 
 /**
