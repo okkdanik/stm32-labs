@@ -94,18 +94,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	  HAL_Delay(500);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-	  HAL_Delay(500);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-	  HAL_Delay(500);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-	  HAL_Delay(500);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+	  for (int i = 12; i <= 15; i++) {
+		  HAL_GPIO_TogglePin(GPIOD, 1 << i);
+		  HAL_Delay(500);
+		  HAL_GPIO_TogglePin(GPIOD, 1 << i);
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
