@@ -53,7 +53,7 @@ static void MX_GPIO_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 bool state = true;
-
+uint8_t counter = 0;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -253,7 +253,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     UNUSED(htim);
 
     if (HAL_GPIO_ReadPin(Push_Button_GPIO_Port, Push_Button_Pin) == GPIO_PIN_RESET) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+        counter = (counter + 1) % 4;
+
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, (counter == 0));
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, (counter == 1));
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, (counter == 2));
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, (counter == 3));
         state = true;
         HAL_TIM_Base_Stop_IT(&htim1);
     }
